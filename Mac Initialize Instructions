@@ -1,0 +1,28 @@
+Mac Setup: Transit Lab
+Prerequisites: Install and launch Docker Desktop.
+    Clone & Enter:
+    Bash
+
+    git clone https://github.com/lkbrennan97/IMT-542-Transit-Lab.git
+    cd IMT-542-Transit-Lab
+
+    Build Engine: ```bash
+    docker compose --profile ingest build
+
+    Start DB: ```bash
+    docker compose up -d fuseki
+
+    *Access dashboard at: `http://localhost:3030` (User/Pass: admin/admin)*
+
+🛠 Execution Commands
+
+    Extract PDF: docker compose --profile ingest run --rm transformer python scripts/extract.py
+
+    Map to RDF: docker compose --profile ingest run --rm transformer java -jar /opt/rmlmapper.jar -m scripts/mapping.ttl -o output/transit.ttl -s turtle
+
+    Validate: docker compose --profile ingest run --rm transformer pyshacl -s data/shapes.ttl -m turtle output/transit.ttl
+
+Mac Notes:
+    Permissions: If scripts won't run, use chmod +x scripts/*.py.
+    Syncing: Use git pull to get Lincoln's updates; use a Personal Access Token to push your own.
+    Line Endings: Ensure VS Code is set to LF (bottom right of window).
