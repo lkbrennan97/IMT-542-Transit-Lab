@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # --- EXTRACTION & MAPPING ---
+  transformer:
+    build: .
+    profiles: ["ingest"]
+    volumes:
+      - .:/app
+    tty: true
+    stdin_open: true
+
+  # --- STORAGE (SPARQL ENDPOINT) ---
+  fuseki:
+    image: atomgraph/fuseki
+    ports:
+      - "3030:3030"
+    volumes:
+      - fuseki_data:/fuseki
+      - ./output:/staging
+    environment:
+      - ADMIN_PASSWORD=admin
+    restart: unless-stopped
+
+volumes:
+  fuseki_data:
