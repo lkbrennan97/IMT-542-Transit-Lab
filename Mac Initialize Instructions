@@ -1,28 +1,45 @@
-Mac Setup: Transit Lab
-Prerequisites: Install and launch Docker Desktop.
-    Clone & Enter:
-    Bash
+1. Prerequisites
+    Install Docker Desktop.
+    (Mac Users) Enable VirtioFS in Docker Settings for faster performance.
 
-    git clone https://github.com/lkbrennan97/IMT-542-Transit-Lab.git
-    cd IMT-542-Transit-Lab
+2. Installation
+Bash
+git clone https://github.com/lkbrennan97/IMT-542-Transit-Lab.git
+cd IMT-542-Transit-Lab
+docker compose --profile ingest build
 
-    Build Engine: ```bash
-    docker compose --profile ingest build
+3. Setup Data
+Place your GTFS .txt files (e.g., stops.txt) into the data/gtfs/ directory.
 
-    Start DB: ```bash
-    docker compose up -d fuseki
+Execution Commands:
+Map GTFS to RDF
+Transform raw CSV data into a Knowledge Graph using the YARRRML mappings.
+Bash
+docker compose --profile ingest run --rm transformer python -m morph_kgc /app/config/morph_config.ini
 
-    *Access dashboard at: `http://localhost:3030` (User/Pass: admin/admin)*
+Validate Results:
+Run SHACL validation against the generated triples.
+Bash
+docker compose --profile ingest run --rm transformer pyshacl -s data/shapes.ttl output/transit_knowledge_graph.nq
 
-🛠 Execution Commands
+Launch Database (Fuseki):
+Start the SPARQL endpoint and access the UI.
+Bash
+docker compose up -d fuseki
+    Dashboard: http://localhost:3030
+    Credentials: admin / admin
 
-    Extract PDF: docker compose --profile ingest run --rm transformer python scripts/extract.py
+Project Structure:
+    config/: Contains morph_config.ini (engine settings).
+    mappings/: Contains stops.yaml (YARRRML mapping logic).
+    data/gtfs/: Raw GTFS source files (ignored by Git).
+    output/: Generated .nq or .ttl files.
 
-    Map to RDF: docker compose --profile ingest run --rm transformer java -jar /opt/rmlmapper.jar -m scripts/mapping.ttl -o output/transit.ttl -s turtle
+Mac-Specific Notes:
+    Platform: Docker is set to linux/amd64 for library compatibility on M-series chips.
+    Line Endings: Ensure VS Code is set to LF (not CRLF) to prevent script errors.
+    Permissions: Run chmod +x run_ingest.sh if using helper scripts.
 
-    Validate: docker compose --profile ingest run --rm transformer pyshacl -s data/shapes.ttl -m turtle output/transit.ttl
-
-Mac Notes:
-    Permissions: If scripts won't run, use chmod +x scripts/*.py.
-    Syncing: Use git pull to get Lincoln's updates; use a Personal Access Token to push your own.
-    Line Endings: Ensure VS Code is set to LF (bottom right of window).
+Syncing with the Team:
+    Pull: git pull origin main to get the latest mapping logic.
+    Push: Use a GitHub Personal Access Token (PAT) when prompted for a password.
