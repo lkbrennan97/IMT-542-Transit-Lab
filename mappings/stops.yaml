@@ -1,0 +1,14 @@
+prefixes:
+  ex: "http://example.org/"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+
+mappings:
+  stops_mapping:
+    sources:
+      - ['/app/data/gtfs/stops.txt~csv']
+    s: http://example.org/stop/$(stop_id)
+    po:
+      - [a, ex:Stop]
+      - [ex:stopName, $(stop_name)]
+      - [ex:lat, $(stop_lat), xsd:double]
+      - [ex:lon, $(stop_lon), xsd:double]

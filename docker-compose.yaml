@@ -1,20 +1,16 @@
-version: '3.8'
-
 services:
-  # --- EXTRACTION & MAPPING ---
   transformer:
     build: .
+    platform: linux/amd64  # Forces compatibility for Python libraries like Pandas/Morph-KGC
     profiles: ["ingest"]
-    env_file:
-      - .env  # This pulls the keys from your .env file into the container
     volumes:
       - .:/app
     tty: true
     stdin_open: true
 
-  # --- STORAGE (SPARQL ENDPOINT) ---
   fuseki:
     image: atomgraph/fuseki
+    platform: linux/amd64
     ports:
       - "3030:3030"
     volumes:

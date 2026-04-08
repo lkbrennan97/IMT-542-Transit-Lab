@@ -1,2 +1,5 @@
-requests
 pandas
+rdflib
+morph-kgc
+pyshacl
+requests
