@@ -12,3 +12,7 @@ Thumbs.db
 # Data files (Optional: keep these local if they are huge)
 output/*.ttl
 data/cleaned_schedule.csv
+
+# Protégé application (Ignore the app, but keep your code)
+Protege-5.6.9/
+*.tar.gz
