@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
 # Install Transit Data Libraries
 RUN pip install --no-cache-dir \
     pandas \
+    requests \
     camelot-py[cv] \
     rdflib \
     opencv-python-headless \
