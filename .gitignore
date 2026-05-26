@@ -3,11 +3,14 @@ __pycache__/
 *.pyc
 
 # Data & Output (Keep folders, ignore content)
-data/gtfs/*
-!data/gtfs/.gitkeep
-output/*
-!output/.gitkeep
+archive/data/gtfs/*
+!archive/data/gtfs/.gitkeep
+archive/output/*
+!archive/output/.gitkeep
 
 # Environment/OS
 .DS_Store
 .env
+
+.venv
+.idea

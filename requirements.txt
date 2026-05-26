@@ -1,5 +1,5 @@
+
+polars
 pandas
-rdflib
-morph-kgc
-pyshacl
-requests
+maplib
+networkx

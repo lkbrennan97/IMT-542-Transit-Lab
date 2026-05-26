@@ -29,6 +29,6 @@ RUN wget https://github.com/RMLio/rmlmapper-java/releases/download/v6.2.2/rmlmap
 WORKDIR /app
 
 # Copy the project files into the image (so it works even without volumes)
-COPY . .
+COPY .. .
 
 CMD ["bash"]
